@@ -7,7 +7,7 @@ pipeline {
         //DOCKER_CREDENTIALS_ID = 'credenciales-docker'
         NEXUS_CREDENTIALS_ID = 'nexus-credentials'
         SONARQUBE_SERVER = 'sonarqube'
-        SONARQUBE_CREDENTIALS_ID = 'sonarqube-credentials'
+        SONARQUBE_CREDENTIALS_ID = 'token-sonar'
         /*KUBECONFIG = credentials('credenciales-kubeconfig')
         KUBERNETES_DEPLOYMENT = 'nombre-del-deployment'
         KUBERNETES_NAMESPACE = 'nombre-del-namespace'*/
@@ -48,11 +48,18 @@ pipeline {
         }
 
         stage('Analizar calidad en SonarQube') {
+            agent {
+                docker {
+                    image 'sonarsource/sonar-scanner-cli'
+                    args '--network="devops-sebamv_default"'
+                    reuseNode true
+                }
+            }
             steps {
                 script {
                     withSonarQubeEnv('sonarqube') { 
                         // Enviar reporte a SonarQube
-                        sh 'mvn sonar:sonar' // o el comando que uses para sonar
+                        sh 'sonnar-scanner' // o el comando que uses para sonar
                     }
                 }
             }
