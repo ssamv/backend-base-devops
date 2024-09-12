@@ -19,6 +19,7 @@ pipeline {
             agent {
                 docker {
                     image 'node:20.11.1-alpine3.19'
+                    reuseNode true
                 }
             }
             stages{
@@ -80,9 +81,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry(${DOCKER_REGISTRY},${NEXUS_CREDENTIALS_ID}){
-                        sh """
-                        docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}
-                        """
+                        sh "docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}"
                     }
                 }
             }
