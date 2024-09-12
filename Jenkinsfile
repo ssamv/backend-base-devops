@@ -22,20 +22,20 @@ pipeline {
                 }
             }
             stages{
-                stage{
-                    steps ('install') {
+                stage ('install') {
+                    steps {
                         sh 'npm install'
                     }
                 }
 
-                stage{
-                    steps ('test') {
+                stage ('test'){
+                    steps  {
                         sh 'npm test'
                     }
                 }
 
-                stage{
-                    steps ('build'){
+                stage ('build'){
+                    steps {
                         sh 'npm run build'
                     }
                 }
