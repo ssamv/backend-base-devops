@@ -59,7 +59,7 @@ pipeline {
                 script {
                     withSonarQubeEnv('sonarqube') { 
                         // Enviar reporte a SonarQube
-                        sh 'sonar-scanner' // o el comando que uses para sonar
+                        sh 'sonar-scanner'
                     }
                 }
             }
@@ -67,7 +67,10 @@ pipeline {
 
         stage('Validar puerta de calidad') {
             steps {
-                waitForQualityGate abortPipeline: true
+                timeout(time:10, unit:'SECONDS'){
+                    waitForQualityGate abortPipeline: true
+                }
+                
             }
         }
 
