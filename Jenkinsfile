@@ -21,15 +21,28 @@ pipeline {
                     image 'node:20.11.1-alpine3.19'
                 }
             }
-            steps ('install') {
-                    sh 'npm install'
+            stages{
+                stage{
+                    steps ('install') {
+                        sh 'npm install'
+                    }
+                }
+
+                stage{
+                    steps ('test') {
+                        sh 'npm test'
+                    }
+                }
+
+                stage{
+                    steps ('build'){
+                        sh 'npm run build'
+                    }
+                }
+
             }
-            steps ('test') {
-                    sh 'npm test'
-            }
-            steps ('build'){
-                    sh 'npm run build'
-            }
+            
+            
         }
 
         stage('Analizar calidad en SonarQube') {
