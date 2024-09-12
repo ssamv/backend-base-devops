@@ -15,13 +15,12 @@ pipeline {
 
     stages {
 
-        agent{
-            docker{
-                image: 'node:20.11.1-alphine3.19'
-            }
-        }
-
         stage('Instalar dependencias') {
+            agent{
+                docker{
+                    image: 'node:20.11.1-alphine3.19'
+                }
+            }
             steps {
                 script {
                     // Si estás usando Node.js
@@ -35,6 +34,11 @@ pipeline {
         }
 
         stage('Testing') {
+            agent{
+                docker{
+                    image: 'node:20.11.1-alphine3.19'
+                }
+            }
             steps {
                 script {
                     // Ejecución de pruebas
