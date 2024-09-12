@@ -1,9 +1,12 @@
 import express from "express";
+import helmet from "helmet";
 import { configuration } from "./config.js";
 import { esPalindromo } from "./palindromo.js";
 import { esPrimo } from "./numeros.js";
 
 const app = express();
+
+app.use(helmet.hidePoweredBy());
 
 app.use(express.json());
 
