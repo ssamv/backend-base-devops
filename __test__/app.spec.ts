@@ -1,6 +1,7 @@
 import { describe, test, expect } from "@jest/globals";
 import app from "../src/server.js";
 import { esPalindromo } from "../src/palindromo.js";
+import { esPrimo } from "../src/numeros.js"
 import request from "supertest";
 import { configuration } from "../src/config.js";
 
@@ -12,6 +13,23 @@ describe("Test Suite App", () => {
 
         frase = "cama";
         expect(esPalindromo(frase)).toBe(false);
+    });
+
+    test("primo",()=>{
+        let number: any = 0;
+        expect(esPrimo(number)).toBe(false);
+
+        number = 1;
+        expect(esPrimo(number)).toBe(false);
+
+        number = 6;
+        expect(esPrimo(number)).toBe(false);
+
+        number = 13;
+        expect(esPrimo(number)).toBe(true);
+
+        number = "cinco";
+        expect(esPrimo(number)).toBeNaN;
     });
 
     /*test("sumar dos numeros", () => {
