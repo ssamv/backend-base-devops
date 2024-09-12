@@ -7,7 +7,6 @@ pipeline {
         //DOCKER_CREDENTIALS_ID = 'credenciales-docker'
         NEXUS_CREDENTIALS_ID = 'nexus-credentials'
         SONARQUBE_SERVER = 'sonarqube'
-        SONARQUBE_CREDENTIALS_ID = 'token-sonar'
         /*KUBECONFIG = credentials('credenciales-kubeconfig')
         KUBERNETES_DEPLOYMENT = 'nombre-del-deployment'
         KUBERNETES_NAMESPACE = 'nombre-del-namespace'*/
@@ -56,7 +55,7 @@ pipeline {
             }
             steps {
                 script {
-                    withSonarQubeEnv('sonarqube') { 
+                    withSonarQubeEnv("${SONARQUBE_SERVER}") { 
                         // Enviar reporte a SonarQube
                         sh 'sonar-scanner'
                     }
@@ -79,9 +78,12 @@ pipeline {
 
         stage('Subir a Nexus') {
             steps {
-                docker.withRegistry("${DOCKER_REGISTRY}","${NEXUS_CREDENTIALS_ID}"){
-                    sh "docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}"
+                script{
+                    docker.withRegistry("${DOCKER_REGISTRY}","${NEXUS_CREDENTIALS_ID}"){
+                        sh "docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}"
+                    }
                 }
+                
             }
         }
 
