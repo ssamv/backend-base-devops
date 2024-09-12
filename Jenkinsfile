@@ -79,7 +79,7 @@ pipeline {
         stage('Subir a Nexus') {
             steps {
                 script{
-                    docker.withRegistry("${DOCKER_REGISTRY}","${NEXUS_CREDENTIALS_ID}"){
+                    docker.withRegistry("http://${DOCKER_REGISTRY}","${NEXUS_CREDENTIALS_ID}"){
                         sh "docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}"
                     }
                 }
