@@ -17,8 +17,8 @@ pipeline {
 
         stage('Instalar dependencias') {
             agent {
-                any {
-                    image 'node:20.11.1-alphine3.19'
+                docker {
+                    image 'node:20.11.1-alpine3.19'
                 }
             }
             steps {
@@ -36,7 +36,7 @@ pipeline {
         stage('Testing') {
             agent{
                 docker{
-                    image 'node:20.11.1-alphine3.19'
+                    image 'node:20.11.1-alpine3.19'
                 }
             }
             steps {
