@@ -22,29 +22,13 @@ pipeline {
                 }
             }
             steps ('install') {
-                script {
-                    // Si estás usando Node.js
                     sh 'npm install'
-                    
-                    // Si estás usando Maven o Gradle, usa sus respectivos comandos
-                    // sh 'mvn install'
-                    // sh './gradlew build'
-                }
             }
             steps ('test') {
-                script {
-                    // Ejecución de pruebas
-                    sh 'npm test' // o el comando de tu herramienta de pruebas
-                }
+                    sh 'npm test'
             }
             steps ('build'){
-                script {
-                    // Si usas npm
                     sh 'npm run build'
-                    // Si usas Maven o Gradle
-                    // sh 'mvn package'
-                    // sh './gradlew assemble'
-                }
             }
         }
 
