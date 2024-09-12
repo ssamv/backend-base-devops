@@ -59,7 +59,7 @@ pipeline {
                 script {
                     withSonarQubeEnv('sonarqube') { 
                         // Enviar reporte a SonarQube
-                        sh 'sonnar-scanner' // o el comando que uses para sonar
+                        sh 'sonar-scanner' // o el comando que uses para sonar
                     }
                 }
             }
