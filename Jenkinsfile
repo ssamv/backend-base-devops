@@ -15,13 +15,13 @@ pipeline {
 
     stages {
 
-        stage('Instalar dependencias') {
+        stage('Build and test') {
             agent {
                 docker {
                     image 'node:20.11.1-alpine3.19'
                 }
             }
-            steps {
+            steps ('install') {
                 script {
                     // Si estás usando Node.js
                     sh 'npm install'
@@ -31,18 +31,19 @@ pipeline {
                     // sh './gradlew build'
                 }
             }
-        }
-
-        stage('Testing') {
-            agent{
-                docker{
-                    image 'node:20.11.1-alpine3.19'
-                }
-            }
-            steps {
+            steps ('test') {
                 script {
                     // Ejecución de pruebas
                     sh 'npm test' // o el comando de tu herramienta de pruebas
+                }
+            }
+            steps ('build'){
+                script {
+                    // Si usas npm
+                    sh 'npm run build'
+                    // Si usas Maven o Gradle
+                    // sh 'mvn package'
+                    // sh './gradlew assemble'
                 }
             }
         }
@@ -71,23 +72,7 @@ pipeline {
             }
         }
 
-        stage('Construcción del Build') {
-            agent{
-                docker{
-                    image 'node:20.11.1-alpine3.19'
-                }
-            }
-            steps {
-                script {
-                    // Si usas npm
-                    sh 'npm run build'
-                    
-                    // Si usas Maven o Gradle
-                    // sh 'mvn package'
-                    // sh './gradlew assemble'
-                }
-            }
-        }
+        
 
         stage('Construcción de imagen Docker') {
             steps {
