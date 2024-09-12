@@ -16,12 +16,15 @@ pipeline {
 
         stage('Build and test') {
             agent {
+
                 docker {
                     image 'node:20.11.1-alpine3.19'
                     reuseNode true
                 }
+                
             }
             stages{
+
                 stage ('install') {
                     steps {
                         sh 'npm install'
@@ -34,15 +37,12 @@ pipeline {
                     }
                 }
 
-
-
-            }
-            stages{
                 stage ('build'){
                     steps {
                         sh 'npm run build'
                     }
                 }
+
             }
             
             
