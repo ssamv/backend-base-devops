@@ -72,6 +72,11 @@ pipeline {
         }
 
         stage('Construcción del Build') {
+            agent{
+                docker{
+                    image 'node:20.11.1-alpine3.19'
+                }
+            }
             steps {
                 script {
                     // Si usas npm
