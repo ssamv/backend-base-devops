@@ -13,6 +13,10 @@ describe("Test Suite App", () => {
 
         frase = "cama";
         expect(esPalindromo(frase)).toBe(false);
+
+        frase = "57";
+        expect(esPalindromo(frase)).toBe(false);
+
     });
 
     test("primo",()=>{
@@ -32,45 +36,76 @@ describe("Test Suite App", () => {
         expect(esPrimo(number)).toBeNaN;
     });
 
-    /*test("sumar dos numeros", () => {
-
-        let a: any = 100;
-        let b: any = 200;
-        expect(suma(a, b)).toBe(300);
-
-        a = 10;
-        b = "a";
-        expect(suma(a, b)).toBeNaN();
-
-        a = undefined;
-        b = 1;
-        expect(() => { suma(a, b) }).toThrow("No se puede sumar indefinidos");
-
-    });*/
-
-    test("endpoint /", () => {
-        expect(1 + 1).toBe(2);
-    });
-
-    test("endpoint key", () => {
-        expect(1 + 1).toBe(2);
-    });
-
-    test("endpoint /palindromo", () => {
-        expect(1 + 1).toBe(2);
-    });
-
-    test("endpoint /primo", () => {
-        expect(1 + 1).toBe(2);
-    });
-
     test("test de endpoint /", async () => {
         return await request(app)
             .get("/")
             .expect("Content-Type", /text/)
             .expect(200)
             .then((response) => {
-                expect(response.text).toBe(`Hola, esta api fue configurada por el usuario ${configuration.username}`);
+                expect(response.text).toBe(`Hola, esta api fue configurada por el usuario ${configuration.username} y se ejecuta en el puerto ${configuration.port}`);
             })
     });
+
+    test("endpoint key", async () => {
+        return await request(app)
+        .get("/key")
+        .expect("Content-Type", /text/)
+        .expect(200)
+        .then((response) => {
+            expect(response.text).toBe(`Hola, esta api contiene la siguiente api-key: ${configuration.apiKey}`);
+        })
+    });
+
+    test("endpoint /palindromo frase es palindromo", async () => {
+        return await request(app)
+        .get("/palindromo/ala")
+        .expect("Content-Type", /text/)
+        .expect(200)
+        .then((response) => {
+            expect(response.text).toBe(`Hola, La frase ingresada es palindromo`);
+        })
+    });
+
+    test("endpoint /palindromo frase no es palindromo", async () => {
+        return await request(app)
+        .get("/palindromo/cama")
+        .expect("Content-Type", /text/)
+        .expect(200)
+        .then((response) => {
+            expect(response.text).toBe(`Hola, La frase ingresada no es palindromo`);
+        })
+    });
+
+    test("endpoint /primo no es un numero", async () => {
+        return await request(app)
+        .get("/primo/cinco")
+        .expect("Content-Type", /text/)
+        .expect(200)
+        .then((response) => {
+            expect(response.text).toBe(`Hola, el valor ingresado no corresponde a un numero`);
+        })
+    });
+
+    
+    test("endpoint /primo es primo", async () => {
+        return await request(app)
+        .get("/primo/13")
+        .expect("Content-Type", /text/)
+        .expect(200)
+        .then((response) => {
+            expect(response.text).toBe(`Hola, el numero ingresado es un numero primo`);
+        })
+    });
+
+    test("endpoint /primo no es primo", async () => {
+        return await request(app)
+        .get("/primo/6")
+        .expect("Content-Type", /text/)
+        .expect(200)
+        .then((response) => {
+            expect(response.text).toBe(`Hola, el numero ingresado no es un numero primo`);
+        })
+    });
+
+
 });

@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send(`Hola, esta api fue configurada por el usuario ${configuration.username}`);
+  res.send(`Hola, esta api fue configurada por el usuario ${configuration.username} y se ejecuta en el puerto ${configuration.port}`);
 });
 
 app.get("/key", (req, res) => {
@@ -22,7 +22,11 @@ app.get("/palindromo/:frase", (req, res) => {
 
 app.get("/primo/:numero", (req, res) => {
   const { numero } = req.params
-  res.send(`Hola, el numero ingresado ${esPrimo(+numero) ? "es" : "no es"} un numero primo`);
+  if(Number.isNaN(esPrimo(+numero))){
+    res.send(`Hola, el valor ingresado no corresponde a un numero`);
+  }else{
+    res.send(`Hola, el numero ingresado ${esPrimo(+numero) ? "es" : "no es"} un numero primo`);
+  }
 });
 
 export default app;
