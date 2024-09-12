@@ -67,10 +67,7 @@ pipeline {
 
         stage('Validar puerta de calidad') {
             steps {
-                timeout(time:10, unit:'SECONDS'){
                     waitForQualityGate abortPipeline: true
-                }
-                
             }
         }
 
