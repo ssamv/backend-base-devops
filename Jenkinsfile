@@ -102,11 +102,6 @@ pipeline {
                     steps {
                         sh 'kubectl version --client'  // Aquí ejecutas comandos de kubectl
                     }
-                    steps {
-                        script {
-                            sh 'kubectl get pods'
-                        }
-                    }
                 }
                 stage('Actualizar imagen en Kubernetes'){
                     steps {
