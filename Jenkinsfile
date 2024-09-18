@@ -92,9 +92,11 @@ pipeline {
         stage('Actualizar imagen en Kubernetes') {
             steps {
                 script {
-                    sh """
-                    kubectl set image deployment/${KUBERNETES_DEPLOYMENT} ${KUBERNETES_DEPLOYMENT}=${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} --kubeconfig=${KUBECONFIG}
-                    """
+                    withCredentials([file(credentialsId: 'kubeconfig-credential', variable: 'KUBECONFIG')]) {
+                        sh """
+                        kubectl set image deployment/${KUBERNETES_DEPLOYMENT} ${KUBERNETES_DEPLOYMENT}=${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} --kubeconfig=$KUBECONFIG
+                        """
+                    }
                 }
             }
         }
