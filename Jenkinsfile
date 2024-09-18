@@ -89,8 +89,16 @@ pipeline {
             }
         }
 
-        stage('Actualizar imagen en Kubernetes') {
-            steps {
+        stage('Kubernetes') {
+            agent {
+                docker {
+                    image 'bitnami/kubectl:latest'  // Imagen Docker con kubectl preinstalado
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'  // Si necesitas acceso al socket Docker
+                }
+            }
+            stages{
+                stage('Actualizar imagen en Kubernetes'){
+                    steps {
                 script {
                     withCredentials([file(credentialsId: 'kubeconfig-credential', variable: 'KUBECONFIG')]) {
                         sh """
@@ -99,6 +107,9 @@ pipeline {
                     }
                 }
             }
+                }
+            }
+            
         }
     }
 
