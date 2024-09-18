@@ -25,10 +25,10 @@ app.get("/palindromo/:frase", (req, res) => {
 
 app.get("/primo/:numero", (req, res) => {
   const { numero } = req.params
-  if(Number.isNaN(esPrimo(+numero))){
-    res.send(`Hola, el valor ingresado no corresponde a un numero`);
-  }else{
+  try{
     res.send(`Hola, el numero ingresado ${esPrimo(+numero) ? "es" : "no es"} un numero primo`);
+  }catch(error){
+    res.send(`Hola, ocurrio un `+error);
   }
 });
 

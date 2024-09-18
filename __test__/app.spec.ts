@@ -11,11 +11,23 @@ describe("Test Suite App", () => {
         let frase: any = "ala";
         expect(esPalindromo(frase)).toBe(true);
 
+        frase = "luz azul";
+        expect(esPalindromo(frase)).toBe(true);
+
         frase = "cama";
         expect(esPalindromo(frase)).toBe(false);
 
         frase = "57";
         expect(esPalindromo(frase)).toBe(false);
+
+        frase = "";
+        expect(()=>{esPalindromo(frase)}).toThrow("El texto ingresado esta vacio");
+
+        frase = 5;
+        expect(()=>{esPalindromo(frase)}).toThrow("El valor ingresado no corresponde a una cadena de texto");
+
+        frase = undefined;
+        expect(()=>{esPalindromo(frase)}).toThrow("El valor ingresado no corresponde a una cadena de texto");
 
     });
 
@@ -33,7 +45,11 @@ describe("Test Suite App", () => {
         expect(esPrimo(number)).toBe(true);
 
         number = "cinco";
-        expect(esPrimo(number)).toBeNaN;
+        expect(()=>(esPrimo(number))).toThrow("El valor ingresado no corresponde a un número");
+        
+        number = undefined;
+        expect(()=>(esPrimo(number))).toThrow("El valor ingresado no corresponde a un número")
+
     });
 
     test("test de endpoint /", async () => {
@@ -58,7 +74,7 @@ describe("Test Suite App", () => {
 
     test("endpoint /palindromo frase es palindromo", async () => {
         return await request(app)
-        .get("/palindromo/ala")
+        .get("/palindromo/luz azul")
         .expect("Content-Type", /text/)
         .expect(200)
         .then((response) => {
@@ -68,7 +84,7 @@ describe("Test Suite App", () => {
 
     test("endpoint /palindromo frase no es palindromo", async () => {
         return await request(app)
-        .get("/palindromo/cama")
+        .get("/palindromo/un dia a la vez")
         .expect("Content-Type", /text/)
         .expect(200)
         .then((response) => {
@@ -82,7 +98,7 @@ describe("Test Suite App", () => {
         .expect("Content-Type", /text/)
         .expect(200)
         .then((response) => {
-            expect(response.text).toBe(`Hola, el valor ingresado no corresponde a un numero`);
+            expect(response.text).toBe(`Hola, ocurrio un Error: El valor ingresado no corresponde a un número`);
         })
     });
 

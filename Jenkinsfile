@@ -7,14 +7,12 @@ pipeline {
         //DOCKER_CREDENTIALS_ID = 'credenciales-docker'
         NEXUS_CREDENTIALS_ID = 'nexus-credentials'
         SONARQUBE_SERVER = 'sonarqube'
-        /*KUBECONFIG = credentials('credenciales-kubeconfig')
-        KUBERNETES_DEPLOYMENT = 'nombre-del-deployment'
-        KUBERNETES_NAMESPACE = 'nombre-del-namespace'*/
+        KUBERNETES_DEPLOYMENT = 'backend-base-devops-deployment'
     }
 
     stages {
 
-        stage('Build and test') {
+        stage('APP Test and Build') {
             agent {
 
                 docker {
@@ -90,15 +88,15 @@ pipeline {
             }
         }
 
-        /*stage('Actualizar imagen en Kubernetes') {
+        stage('Actualizar imagen en Kubernetes') {
             steps {
                 script {
                     sh """
-                    kubectl set image deployment/${KUBERNETES_DEPLOYMENT} ${KUBERNETES_DEPLOYMENT}=${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} --namespace=${KUBERNETES_NAMESPACE}
+                    kubectl set image deployment/${KUBERNETES_DEPLOYMENT} ${KUBERNETES_DEPLOYMENT}=${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}
                     """
                 }
             }
-        }*/
+        }
     }
 
     post {

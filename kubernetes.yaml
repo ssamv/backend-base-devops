@@ -1,0 +1,90 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-base-devops
+  namespace: devops
+  labels:
+    app: backend-base-devops
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend-base-devops
+  template:
+    metadata:
+      labels:
+        app: backend-base-devops
+    spec:
+      containers:
+        - name: backend-base-container
+          image: localhost:8086/backend-base-devops:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3001
+          env:
+            - name: USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-base-config
+                  key: USERNAME
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: backend-base-secret
+                  key: API_KEY
+      imagePullSecrets:
+      - name: regered
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-base-service
+  namespace: devops
+  labels:
+    app: backend-base-devops
+spec:
+  selector:
+    app: backend-base-devops
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: backend-base-ingress
+  namespace: devops
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-base-service
+                port:
+                  number: 80
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-base-config
+data:
+  USERNAME: "ssamv"
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-base-secret
+type: Opaque
+data:
+  API_KEY: "apikey"
