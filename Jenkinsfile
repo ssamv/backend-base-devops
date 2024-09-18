@@ -8,7 +8,8 @@ pipeline {
         NEXUS_CREDENTIALS_ID = 'nexus-credentials'
         SONARQUBE_SERVER = 'sonarqube'
         KUBECONFIG = credentials('kubeconfig-credential')
-        KUBERNETES_DEPLOYMENT = 'backend-base-devops-deployment'
+        KUBERNETES_DEPLOYMENT = 'backend-base-devops'
+        KUBERNETES_CONTAINER = 'backend-base-container'
     }
 
     stages {
@@ -108,7 +109,7 @@ pipeline {
                         script {
                             withCredentials([file(credentialsId: 'kubeconfig-credential', variable: 'KUBECONFIG')]) {
                                 sh """
-                                kubectl set image deployment/${KUBERNETES_DEPLOYMENT} ${KUBERNETES_DEPLOYMENT}=${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} --kubeconfig=$KUBECONFIG
+                                kubectl set image deployment ${KUBERNETES_DEPLOYMENT} ${KUBERNETES_CONTAINER}=${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} --kubeconfig=$KUBECONFIG
                                 """
                             }
                         }

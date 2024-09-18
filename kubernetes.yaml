@@ -26,12 +26,12 @@ spec:
             - name: USERNAME
               valueFrom:
                 configMapKeyRef:
-                  name: backend-base-config
+                  name: backend-base-devops
                   key: USERNAME
             - name: API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: backend-base-secret
+                  name: backend-base-devops-api-key-secret
                   key: API_KEY
       imagePullSecrets:
       - name: regered
@@ -71,20 +71,3 @@ spec:
                 name: backend-base-service
                 port:
                   number: 80
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: backend-base-config
-data:
-  USERNAME: "ssamv"
-
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: backend-base-secret
-type: Opaque
-data:
-  API_KEY: "apikey"
