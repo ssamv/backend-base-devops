@@ -7,6 +7,7 @@ pipeline {
         //DOCKER_CREDENTIALS_ID = 'credenciales-docker'
         NEXUS_CREDENTIALS_ID = 'nexus-credentials'
         SONARQUBE_SERVER = 'sonarqube'
+        KUBECONFIG = credentials('kubeconfig-credential')
         KUBERNETES_DEPLOYMENT = 'backend-base-devops-deployment'
     }
 
@@ -92,7 +93,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                    kubectl set image deployment/${KUBERNETES_DEPLOYMENT} ${KUBERNETES_DEPLOYMENT}=${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}
+                    kubectl set image deployment/${KUBERNETES_DEPLOYMENT} ${KUBERNETES_DEPLOYMENT}=${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} --kubeconfig=${KUBECONFIG}
                     """
                 }
             }
