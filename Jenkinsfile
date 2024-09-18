@@ -94,19 +94,20 @@ pipeline {
                 docker {
                     image 'bitnami/kubectl:latest'  // Imagen Docker con kubectl preinstalado
                     args '-v /var/run/docker.sock:/var/run/docker.sock'  // Si necesitas acceso al socket Docker
+                    reuseNode true
                 }
             }
             stages{
                 stage('Actualizar imagen en Kubernetes'){
                     steps {
-                script {
-                    withCredentials([file(credentialsId: 'kubeconfig-credential', variable: 'KUBECONFIG')]) {
-                        sh """
-                        kubectl set image deployment/${KUBERNETES_DEPLOYMENT} ${KUBERNETES_DEPLOYMENT}=${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} --kubeconfig=$KUBECONFIG
-                        """
+                        script {
+                            withCredentials([file(credentialsId: 'kubeconfig-credential', variable: 'KUBECONFIG')]) {
+                                sh """
+                                kubectl set image deployment/${KUBERNETES_DEPLOYMENT} ${KUBERNETES_DEPLOYMENT}=${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} --kubeconfig=$KUBECONFIG
+                                """
+                            }
+                        }
                     }
-                }
-            }
                 }
             }
             
