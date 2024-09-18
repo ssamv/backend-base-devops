@@ -93,11 +93,15 @@ pipeline {
             agent {
                 docker {
                     image 'bitnami/kubectl:latest'  // Imagen Docker con kubectl preinstalado
+                    args '--entrypoint=""' 
                     reuseNode true
                 }
             }
             stages{
                 stage('Verificar conexión a Kubernetes') {
+                    steps {
+                        sh 'kubectl version --client'  // Aquí ejecutas comandos de kubectl
+                    }
                     steps {
                         script {
                             sh 'kubectl get pods'
