@@ -110,7 +110,7 @@ pipeline {
                         script {
                             sh """
                                     kubectl get namespace
-                                    kubectl set image deployment ${KUBERNETES_DEPLOYMENT} ${KUBERNETES_CONTAINER}=${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:latest
+                                    kubectl set image deployment ${KUBERNETES_DEPLOYMENT} ${KUBERNETES_CONTAINER}=${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:latest -n devops
                                     kubectl get pods -n devops
                                     """
                         }
