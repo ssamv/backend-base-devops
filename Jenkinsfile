@@ -75,7 +75,7 @@ pipeline {
         
         stage('Construcción de imagen Docker') {
             steps {
-                sh "docker build -t ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} ."
+                sh "docker build -t ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:latest ."
             }
         }
 
@@ -83,7 +83,7 @@ pipeline {
             steps {
                 script{
                     docker.withRegistry("http://${DOCKER_REGISTRY}","${NEXUS_CREDENTIALS_ID}"){
-                        sh "docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}"
+                        sh "docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:latest"
                     }
                 }
                 
@@ -109,7 +109,7 @@ pipeline {
                         script {
                             withCredentials([file(credentialsId: 'kubeconfig-credential', variable: 'KUBECONFIG')]) {
                                 sh """
-                                kubectl set image deployment ${KUBERNETES_DEPLOYMENT} ${KUBERNETES_CONTAINER}=${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} --kubeconfig=$KUBECONFIG -n devops
+                                kubectl set image deployment ${KUBERNETES_DEPLOYMENT} ${KUBERNETES_CONTAINER}=${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:latest --kubeconfig=$KUBECONFIG -n devops
                                 """
                             }
                         }

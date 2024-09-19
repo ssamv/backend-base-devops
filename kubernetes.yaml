@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: backend-base-container
-          image: localhost:8086/backend-base-devops:47
+          image: localhost:8086/backend-base-devops:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 3001
