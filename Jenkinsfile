@@ -109,7 +109,7 @@ pipeline {
                         script {
                             withCredentials([file(credentialsId: 'kubeconfig-credential', variable: 'KUBECONFIG')]) {
                                 sh """
-                                kubectl set image deployment ${KUBERNETES_DEPLOYMENT} ${KUBERNETES_CONTAINER}=${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:latest --kubeconfig=$KUBECONFIG -n devops
+                                kubectl set image deployment ${KUBERNETES_DEPLOYMENT} ${KUBERNETES_CONTAINER}=${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:latest --kubeconfig=$KUBECONFIG
                                 """
                             }
                         }
