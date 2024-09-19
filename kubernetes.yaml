@@ -26,7 +26,7 @@ spec:
             - name: USERNAME
               valueFrom:
                 configMapKeyRef:
-                  name: backend-base-devops
+                  name: backend-base-devops-username
                   key: USERNAME
             - name: API_KEY
               valueFrom:
@@ -71,3 +71,23 @@ spec:
                 name: backend-base-service
                 port:
                   number: 80
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-base-devops-username
+  namespace: devops
+data:
+  USERNAME: ssamv
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-base-devops-api-key-secret
+  namespace: devops
+type: Opaque
+data:
+  API_KEY: hD9Al49pU9PH05NBjmi4qA==
