@@ -94,8 +94,8 @@ pipeline {
             agent {
                 docker {
                     image 'bitnami/kubectl:latest'  // Imagen Docker con kubectl preinstalado
-                    args '--entrypoint=""' 
                     args '-v /root/.kube/config:/root/.kube/config'
+                    args '--entrypoint=""' 
                     reuseNode true
                 }
             }
