@@ -107,12 +107,10 @@ pipeline {
                 stage('Actualizar imagen en Kubernetes'){
                     steps {
                         script {
-                            
                             sh """
                                     kubectl set image deployment ${KUBERNETES_DEPLOYMENT} ${KUBERNETES_CONTAINER}=${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:latest
                                     kubectl get pods
                                     """
-                            }
                         }
                     }
                 }
