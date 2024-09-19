@@ -95,6 +95,7 @@ pipeline {
                 docker {
                     image 'bitnami/kubectl:latest'  // Imagen Docker con kubectl preinstalado
                     args '--entrypoint=""' 
+                    args '-v /root/.kube/config:/root/.kube/config'
                     reuseNode true
                 }
             }
@@ -108,8 +109,9 @@ pipeline {
                     steps {
                         script {
                             sh """
+                                    kubectl get namespace
                                     kubectl set image deployment ${KUBERNETES_DEPLOYMENT} ${KUBERNETES_CONTAINER}=${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:latest
-                                    kubectl get pods
+                                    kubectl get pods -n devops
                                     """
                         }
                     }
