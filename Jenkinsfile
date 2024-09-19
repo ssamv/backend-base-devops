@@ -110,7 +110,9 @@ pipeline {
                             withCredentials([file(credentialsId: 'kubeconfig-credential', variable: 'KUBECONFIG')]) {
                                 withEnv(["KUBECONFIG=${env.KUBECONFIG}"]) {
                                     sh """
+                                    kubectl get secrets
                                     kubectl set image deployment ${KUBERNETES_DEPLOYMENT} ${KUBERNETES_CONTAINER}=${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:latest
+                                    kubectl get pods
                                     """
                                 }
                             }
